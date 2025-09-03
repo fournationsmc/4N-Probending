@@ -216,5 +216,5 @@ pip-log.txt
 /target/
 /dependency-reduced-pom.xml
 
-idea/
+.idea/
 
