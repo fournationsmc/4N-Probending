@@ -1,0 +1,33 @@
+package net.fournationsmc.probending.commands;
+
+import net.fournationsmc.probending.PBMessenger;
+import net.fournationsmc.probending.PBMessenger.PBMessage;
+import net.md_5.bungee.api.ChatColor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+
+public class QueueLeaveCommand extends PBCommand {
+
+    public QueueLeaveCommand() {
+        super("leave", "Leave the probending match queue!", "/probending leave", new String[]{"leave", "l"});
+    }
+
+    @Override
+    public void execute(CommandSender sender, String[] args) {
+        if (!sender.hasPermission("probending.command.leave")) {
+            sender.sendMessage(ChatColor.RED + "Insufficient Permissions");
+            return;
+        }
+        if (sender instanceof Player) {
+            Player player = (Player) sender;
+            if (args.length > 0) {
+                PBMessenger.sendMessage(player, PBMessage.ERROR);
+            } else {
+                Commands.getQueueManager().removePlayerFromQueue(player);
+            }
+        } else {
+            sender.sendMessage(ChatColor.RED + "Only players can use this command!");
+        }
+    }
+
+}
