@@ -8,8 +8,13 @@ package net.fournationsmc.probending.game.field;
 import net.fournationsmc.probending.enums.WinningType;
 import net.fournationsmc.probending.game.Game;
 import net.fournationsmc.probending.objects.ProbendingField;
-import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
+import com.sk89q.worldguard.WorldGuard;
+import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
+import com.sk89q.worldguard.protection.regions.RegionContainer;
+import com.sk89q.worldguard.protection.regions.RegionQuery;
+import com.sk89q.worldedit.bukkit.BukkitAdapter;
+import com.sk89q.worldedit.math.BlockVector3;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -41,9 +46,14 @@ public class FieldManager {
         if (wgp == null) {
             return;
         }
-        WorldGuardPlugin wg = (WorldGuardPlugin) wgp;
-        Set<ProtectedRegion> toRegions = wg.getRegionContainer().get(player.getWorld()).getApplicableRegions(to).getRegions();
-        Set<ProtectedRegion> newRegions = toRegions;
+        
+        RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
+        RegionQuery query = container.createQuery();
+        ApplicableRegionSet fromRegionSet = query.getApplicableRegions(BukkitAdapter.adapt(from));
+        ApplicableRegionSet toRegionSet = query.getApplicableRegions(BukkitAdapter.adapt(to));
+        Set<ProtectedRegion> toRegions = toRegionSet.getRegions();
+        Set<ProtectedRegion> newRegions = new HashSet<>(toRegions);
+        newRegions.addAll(fromRegionSet.getRegions());
         if (!oldPlayerRegions.containsKey(player.getUniqueId())) {
             oldPlayerRegions.put(player.getUniqueId(), new HashSet<ProtectedRegion>());
         }
@@ -82,7 +92,7 @@ public class FieldManager {
                 }
             }
             boolean leftDMArea = true;
-            for (ProtectedRegion rg : newRegions) {
+            for (ProtectedRegion rg : toRegions) {
                 String regionName = rg.getId();
                 if (field.getDeathMatchArea().equalsIgnoreCase(regionName)) {
                     leftDMArea = false;

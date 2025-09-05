@@ -12,7 +12,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.player.PlayerAnimationEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 
 public class GameListener implements Listener {
@@ -45,21 +44,13 @@ public class GameListener implements Listener {
         }
     }
 
-    @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
-    public void PlayerAnimationEvent(PlayerAnimationEvent event) {
-        Player player = event.getPlayer();
-        if (!game.canPlayerMove(player)) {
-            event.setCancelled(true);
-        }
-    }
-
     @EventHandler(ignoreCancelled = true)
     public void DamageEvent(EntityDamageEvent event) {
         Entity e = event.getEntity();
         if (e instanceof Player) {
             Player player = (Player) e;
             if (game.isPlayerInMatch(player)) {
-                event.setDamage(0);
+                event.setCancelled(true);
             }
         }
     }

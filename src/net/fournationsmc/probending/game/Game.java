@@ -7,7 +7,8 @@ import net.fournationsmc.probending.enums.WinningType;
 import net.fournationsmc.probending.game.field.FieldManager;
 import net.fournationsmc.probending.game.round.Round;
 import net.fournationsmc.probending.game.scoreboard.PBScoreboard;
-import net.fournationsmc.probending.libraries.Title;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.title.Title;
 import net.fournationsmc.probending.managers.PBQueueManager;
 import net.fournationsmc.probending.objects.PBGear;
 import net.fournationsmc.probending.objects.Pair;
@@ -144,12 +145,12 @@ public class Game {
             }
         }
         curRound++;
-        Title title = new Title(ChatColor.BLUE + "" + team1Score + ChatColor.WHITE + " - " + ChatColor.RED + "" + team2Score, "", 1, 1, 1);
+        Title title = Title.title(Component.text(ChatColor.BLUE + "" + team1Score + ChatColor.WHITE + " - " + ChatColor.RED + "" + team2Score), Component.empty());
         for (Player p : team1Players) {
-            title.send(p);
+            p.showTitle(title);
         }
         for (Player p : team2Players) {
-            title.send(p);
+            p.showTitle(title);
         }
         pbScoreboard.setTeamScore(winningTeam == WinningType.TEAM1 ? 1 : 2, winningTeam == WinningType.TEAM1 ? team1Score : team2Score);
         if (curRound > rounds) {

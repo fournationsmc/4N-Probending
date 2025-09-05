@@ -1,9 +1,11 @@
 name: 4N-Probending
 author: FourNationsMC
-version: 1.0.0
+version: 2.0.0
 main: net.fournationsmc.probending.Probending
+api-version: 1.21
 depend: [ ProjectKorra ]
 softdepend: [ Vault, WorldGuard ]
+description: A probending plugin for Minecraft servers with ProjectKorra
 commands:
   probending:
     aliases: [ pb ]

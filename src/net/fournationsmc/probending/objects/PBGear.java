@@ -49,7 +49,7 @@ public class PBGear {
         item = new ItemStack(material);
         meta = (LeatherArmorMeta) item.getItemMeta();
         meta.setColor(Color.fromRGB(color.getRValue(), color.getGValue(), color.getBValue()));
-        meta.spigot().setUnbreakable(true);
+        meta.setUnbreakable(true);
         item.setItemMeta(meta);
         return item;
     }

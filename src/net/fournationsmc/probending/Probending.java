@@ -2,7 +2,6 @@ package net.fournationsmc.probending;
 
 import net.fournationsmc.probending.commands.Commands;
 import net.fournationsmc.probending.config.ConfigManager;
-import com.projectkorra.probending.managers.*;
 import net.fournationsmc.probending.managers.*;
 import net.fournationsmc.probending.storage.DBProbendingTeam;
 import net.fournationsmc.probending.storage.DatabaseHandler;

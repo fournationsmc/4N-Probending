@@ -3,7 +3,8 @@ package net.fournationsmc.probending.game.round;
 import net.fournationsmc.probending.game.Game;
 import net.fournationsmc.probending.game.scoreboard.PBScoreboard;
 import net.fournationsmc.probending.libraries.Timer;
-import net.fournationsmc.probending.libraries.Title;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.title.Title;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -77,12 +78,12 @@ public class Round {
     }
 
     private void sendTitle(String message) {
-        Title title = new Title("", message, 0, 1, 0);
+        Title title = Title.title(Component.empty(), Component.text(message));
         for (Player p : team1) {
-            title.send(p);
+            p.showTitle(title);
         }
         for (Player p : team2) {
-            title.send(p);
+            p.showTitle(title);
         }
     }
 
