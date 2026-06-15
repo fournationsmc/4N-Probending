@@ -4,6 +4,7 @@ import net.fournationsmc.probending.config.ConfigManager;
 import net.fournationsmc.probending.libraries.database.AbstractDatabase;
 import net.fournationsmc.probending.libraries.database.MySQLDatabase;
 import net.fournationsmc.probending.libraries.database.SQLiteDatabase;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class DatabaseHandler {
@@ -18,16 +19,18 @@ public class DatabaseHandler {
             return;
         }
 
-        _useMySQL = ConfigManager.defaultConfig.get().getBoolean("Database.MySQL.Enabled");
+        FileConfiguration config = ConfigManager.defaultConfig.get();
+        _useMySQL = config.getBoolean("Database.MySQL.Enabled")
+                || "mysql".equalsIgnoreCase(config.getString("General.Storage", "sqlite"));
 
         if (!_useMySQL) {
             _database = new SQLiteDatabase(plugin.getLogger(), "probending.db", plugin.getDataFolder().getAbsolutePath());
         } else {
-            String hostname = ConfigManager.defaultConfig.get().getString("Database.MySQL.Hostname");
-            String port = ConfigManager.defaultConfig.get().getString("Database.MySQL.Port");
-            String databaseName = ConfigManager.defaultConfig.get().getString("Database.MySQL.Database");
-            String username = ConfigManager.defaultConfig.get().getString("Database.MySQL.Username");
-            String password = ConfigManager.defaultConfig.get().getString("Database.MySQL.Password");
+            String hostname = config.getString("Database.MySQL.Hostname", config.getString("MySQL.Host", "localhost"));
+            String port = String.valueOf(config.getInt("Database.MySQL.Port", config.getInt("MySQL.Port", 3306)));
+            String databaseName = config.getString("Database.MySQL.Database", config.getString("MySQL.DB", "Probending"));
+            String username = config.getString("Database.MySQL.Username", config.getString("MySQL.User", "ProbendingROOT"));
+            String password = config.getString("Database.MySQL.Password", config.getString("MySQL.Pass", "ROOTPassword"));
             _database = new MySQLDatabase(plugin.getLogger(), hostname, port, databaseName, username, password);
         }
 

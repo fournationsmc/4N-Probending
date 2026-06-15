@@ -22,12 +22,16 @@ public class ConfigManager {
             case DEFAULT:
                 config = defaultConfig.get();
 
-                config.addDefault("Database.MySQL.Enabled", false);
-                config.addDefault("Database.MySQL.Hostname", "localhost");
-                config.addDefault("Database.MySQL.Port", 3306);
-                config.addDefault("Database.MySQL.Database", "Probending");
-                config.addDefault("Database.MySQL.Username", "ProbendingROOT");
-                config.addDefault("Database.MySQL.Password", "ROOTPassword");
+                // Preserve compatibility with the legacy checked-in config structure
+                // while also writing the newer Database.MySQL.* keys expected by code.
+                String legacyStorage = config.getString("General.Storage", "sqlite");
+                boolean useMySql = "mysql".equalsIgnoreCase(legacyStorage);
+                config.addDefault("Database.MySQL.Enabled", useMySql);
+                config.addDefault("Database.MySQL.Hostname", config.getString("MySQL.Host", "localhost"));
+                config.addDefault("Database.MySQL.Port", config.getInt("MySQL.Port", 3306));
+                config.addDefault("Database.MySQL.Database", config.getString("MySQL.DB", "Probending"));
+                config.addDefault("Database.MySQL.Username", config.getString("MySQL.User", "ProbendingROOT"));
+                config.addDefault("Database.MySQL.Password", config.getString("MySQL.Pass", "ROOTPassword"));
 
                 defaultConfig.save();
                 break;
