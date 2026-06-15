@@ -1,6 +1,6 @@
 # 4N-Probending
 
-A probending plugin for Minecraft servers with ProjectKorra, updated for Paper 1.21.1.
+A probending plugin for Minecraft servers with ProjectKorra, updated for Paper 1.21.10.
 
 ## Description
 
@@ -8,7 +8,7 @@ This plugin adds probending functionality to Minecraft servers running ProjectKo
 
 ## Requirements
 
-- Paper 1.21.1 or higher
+- Paper 1.21.10 or higher
 - Java 21
 - ProjectKorra plugin
 - (Optional) Vault plugin for economy features
@@ -60,7 +60,7 @@ The plugin will create a `config.yml` file in the plugin directory. You can conf
 
 This version has been updated from the original 9-year-old codebase:
 
-- Updated to Paper 1.21.1 API
+- Updated to Paper 1.21.10 API
 - Removed deprecated API calls
 - Updated dependencies to modern versions
 - Removed web interface components
